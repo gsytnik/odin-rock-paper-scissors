@@ -1,21 +1,59 @@
 
 function main(){
 
-    let humanScore, computerScore;
-    humanScore = computerScore = 0;
+    let buttonContainer = document.querySelector('.playerButtons');
+    let scoreElement = document.querySelector('.scoreBoard');
+    let resetButton = document.querySelector('#reset')
+    makePlayerButtons(buttonContainer);
 
-    for (let i = 0; i < 5; i++) {
-        let winner = playRound(getHumanChoice(), getComputerChoice());
-        if (winner) winner === 1 ? humanScore ++ : computerScore ++;
-    }
+    let score = [0, 0];
 
-    console.log(
-    `Final Score:
-    You: ${humanScore}
-    Computer: ${computerScore}
+    resetButton.style.visibility = 'hidden';
+    resetButton.addEventListener('click', () => {
+        score = [0, 0];
+        scoreElement.textContent = `Score: ${score[0]} - ${score[1]}`;
+        buttonContainer.addEventListener('click', humanChoiceButtonHandler(scoreElement, score, buttonContainer, resetButton));
+    });
+
+
+
+    buttonContainer.addEventListener('click', humanChoiceButtonHandler(scoreElement, score, buttonContainer, resetButton));
+        
     
-    You ${humanScore < computerScore ? "LOSE!" : (computerScore === humanScore ? "TIE!" : "WIN!")}
-    `);
+    
+}
+
+
+function humanChoiceButtonHandler(scoreElement, score, buttonContainer, resetButton) {
+    return function updateScore(event) {
+        event.stopPropagation();
+        let targetID = event.target.id;
+        if (targetID && targetID.includes('playerButton')){
+            let selectedValue = parseInt(targetID.slice(-1));
+            
+            let winner = playRound(selectedValue, getComputerChoice());
+            // yes i know this sucks to look at.
+            winner === 1 ? score[0] += 1 : (winner === -1 ? score[1] += 1 : score = score);
+            scoreElement.textContent = `Score: ${score[0]} - ${score[1]}`;
+            console.log(score);
+        }
+
+        if (score[0] >= 5 || score[1] >= 5){
+            buttonContainer.removeEventListener('click', updateScore);
+            scoreElement.appendChild(document.createTextNode(`
+                You ${score[0] >= 5 ? 'WON!' : 'LOST!'}`));
+            resetButton.style.visibility = 'visible';
+        }
+    }
+}
+
+function makePlayerButtons(buttonContainer){
+    for (let i = 0; i < 3; i++){
+        let button = document.createElement("button");
+        button.setAttribute("id", `playerButton${i}`);
+        button.appendChild(document.createTextNode(`${value_to_rps(i)}`));
+        buttonContainer.appendChild(button);
+    }
 }
 
 function getRandomInt(max) {
@@ -24,20 +62,6 @@ function getRandomInt(max) {
 
 function getComputerChoice() {
     return getRandomInt(3);
-}
-
-function getHumanChoice(){
-    let response;
-    do {
-        response = prompt("rock, paper, scissors", -1);
-        if (response) response = response.toLowerCase();
-
-    } while (response !== "rock" && response !== "paper" && response !== "scissors");
-
-    if (response === "rock") return 0;
-    
-    assert(response === "paper" || response === "scissors", `Response is one of paper or scissors: response = ${response}`);
-    return response === "paper" ? 1 : 2;
 }
 
 function assert(condition, msg){
@@ -52,7 +76,11 @@ function playRound(humanChoice, computerChoice) {
     let humanString = value_to_rps(humanChoice);
     let computerString = value_to_rps(computerChoice);
 
+    document.querySelector('#human').textContent = humanString;
+    document.querySelector('#computer').textContent = computerString;
+
     // rock = 0, paper = 1, scissors = 2
+    // yes this logic is unnecessarily complicated.
     if (humanChoice === computerChoice) winner = 0;
     else {
         if (humanChoice %2 === 0 && computerChoice % 2 === 0) winner = (humanChoice - computerChoice) / -2;
@@ -76,11 +104,11 @@ function value_to_rps(val){
 
     switch (val) {
         case 0:
-            return "rock";
+            return "Rock";
         case 1:
-            return "paper";
+            return "Paper";
         case 2:
-            return "scissors";
+            return "Scissors";
         default:
             throw new RangeError(`accepted value must be 0, 1, or 2: value = ${val}`);
     }

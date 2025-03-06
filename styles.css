@@ -1,0 +1,97 @@
+html, body {
+    box-sizing: content-box;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: #1f1f1f;
+}
+
+*, *::after, *::before{
+    box-sizing: inherit;
+    font-family: Roboto, sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0 0 0;
+    flex-direction: column;
+}
+
+.mainContainer{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 80%;
+    flex-wrap: wrap-reverse;
+}
+
+
+.side {
+    border: 2px solid; 
+    border-color: wheat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    min-width: 200px;
+}
+
+.playerButtons {
+    display: flex;
+    justify-content: center;
+    padding: 5% 10%;
+}
+
+h1, p, .scoreBoard{
+    color: white;
+    background-color: #1f1f1f;
+    text-align: center;
+}
+
+h1{
+    padding: 10% 5% 5% 5%;
+}
+
+p{
+    padding: 2%;
+}
+
+button {
+    background-color: wheat;
+    color: #1f1f1f;
+    padding: 1%;
+    flex:1;
+}
+
+button:hover{
+    background-color: #e0c592;
+}
+
+button:active{
+    transform: translateY(4px);
+}
+
+p, button {
+    text-align: center;
+    font-weight: 900;
+    font-size: 18px;
+}
+
+hr{
+    width: 80%;
+}
+
+
+.scoreBoard {
+    font-size: 24px;
+    padding-bottom: 1%;
+}
+
+#reset {
+    color: #1f1f1f; 
+    background-color: white;
+    margin-top: 20px;
+    width: 30%;
+}

@@ -4,9 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="rockPaperScissors.js"></script>
+    <script src="rockPaperScissors.js" defer></script>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+    <div class="scoreBoard">Score: 0 - 0</div>
+    <div class="mainContainer">
+        <div class="side">
+            <h1 class="choice" id="human">________</h1>
+            <hr>
+            <div class="playerButtons">
+            </div>
+        </div>
+        <div class="side">
+            <h1 class="choice" id="computer">________</h1>
+            <hr>
+            <p>Computer Choice</p>
+        </div>
+    </div>
+    <button id="reset">Reset</button>
     
 </body>
 </html>
